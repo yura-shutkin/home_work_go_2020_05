@@ -31,15 +31,13 @@ func Unpack(msg string) (string, error) {
 
 	for id, val := range msg {
 		isPrevEsc = false
-		// Check is first Char is Numeric
+		// Check if first Char is Numeric
 		if id == 0 {
 			if unicode.IsDigit(val) {
 				return "", ErrInvalidString
 			}
-			buf += string(val)
-			continue
 		}
-		// Check if lower letter
+		// Check if letter
 		if unicode.IsLetter(val) {
 			if len(buf) != 0 {
 				resultString += buf
@@ -54,6 +52,7 @@ func Unpack(msg string) (string, error) {
 			buf += string(val)
 			continue
 		}
+		// Check if numeric
 		if unicode.IsDigit(val) {
 			if isPrevEsc {
 				buf += string(val)
