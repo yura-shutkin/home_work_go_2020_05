@@ -39,33 +39,33 @@ func Unpack(msg string) (string, error) {
 			if unicode.IsDigit(val) {
 				return "", ErrInvalidString
 			}
-			buf = buf + string(val)
+			buf += string(val)
 			continue
 		}
 		// Check if lower letter
 		if unicode.IsLetter(val) {
 			if len(buf) != 0 {
-				resultString = resultString + buf
+				resultString += buf
 				buf = string(val)
 				continue
 			}
-			buf = buf + string(val)
+			buf += string(val)
 			continue
 		}
 		// Check if escape char
 		if IsInList(val, EscapeCharList) {
-			buf = buf + string(val)
+			buf += string(val)
 			continue
 		}
 		if unicode.IsDigit(val) {
 			if isPrevEsc {
-				buf = buf + string(val)
+				buf += string(val)
 				continue
 			}
 			if len(buf) == 0 {
 				return "", ErrInvalidString
 			}
-			resultString = resultString + strings.Repeat(buf, int(val-'0'))
+			resultString += strings.Repeat(buf, int(val-'0'))
 			buf = ""
 			continue
 		}
@@ -74,7 +74,7 @@ func Unpack(msg string) (string, error) {
 	}
 
 	if len(buf) != 0 {
-		resultString = resultString + buf
+		resultString += buf
 	}
 	return resultString, nil
 }
