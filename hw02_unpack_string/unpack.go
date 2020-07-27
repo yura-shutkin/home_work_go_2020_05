@@ -7,9 +7,6 @@ import (
 )
 
 var ErrInvalidString = errors.New("invalid string")
-
-//var ErrFirstCharIsNum = errors.New("first char can not be numeric")
-//var ErrUnknowChar = errors.New("not a letter, not a numeric, not an escape char")
 var EscapeCharList = []rune{
 	'\\',
 	'*',
