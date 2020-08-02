@@ -15,7 +15,7 @@ const (
 
 func TestPipeline(t *testing.T) {
 	// Stage generator
-	g := func(name string, f func(v I) I) Stage {
+	g := func(name string, f func(v interface{}) interface{}) Stage {
 		return func(in In) Out {
 			out := make(Bi)
 			go func() {
@@ -30,10 +30,10 @@ func TestPipeline(t *testing.T) {
 	}
 
 	stages := []Stage{
-		g("Dummy", func(v I) I { return v }),
-		g("Multiplier (* 2)", func(v I) I { return v.(int) * 2 }),
-		g("Adder (+ 100)", func(v I) I { return v.(int) + 100 }),
-		g("Stringifier", func(v I) I { return strconv.Itoa(v.(int)) }),
+		g("Dummy", func(v interface{}) interface{} { return v }),
+		g("Multiplier (* 2)", func(v interface{}) interface{} { return v.(int) * 2 }),
+		g("Adder (+ 100)", func(v interface{}) interface{} { return v.(int) + 100 }),
+		g("Stringifier", func(v interface{}) interface{} { return strconv.Itoa(v.(int)) }),
 	}
 
 	t.Run("simple case", func(t *testing.T) {
@@ -54,7 +54,7 @@ func TestPipeline(t *testing.T) {
 		}
 		elapsed := time.Since(start)
 
-		require.Equal(t, result, []string{"102", "104", "106", "108", "110"})
+		require.Equal(t, []string{"102", "104", "106", "108", "110"}, result)
 		require.Less(t,
 			int64(elapsed),
 			// ~0.8s for processing 5 values in 4 stages (100ms every) concurrently
