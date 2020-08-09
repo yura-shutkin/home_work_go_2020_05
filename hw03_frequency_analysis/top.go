@@ -7,7 +7,7 @@ import (
 
 // I had a situation when a single run did not remove every occurrence of "search"
 // That's why I run infinite loop that guaranties every "search" will be replaced
-// with "replace"
+// with "replace".
 func MassReplace(str, search, replace string) string {
 	for {
 		if strings.Contains(str, search) {
@@ -63,12 +63,12 @@ func Top10(msg string) []string {
 		if !ok {
 			ratings[val] = 1
 		} else {
-			ratings[val] += 1
+			ratings[val]++
 		}
 	}
 
 	var top []string
-	for lim := 10; lim > 0; lim -= 1 {
+	for lim := 10; lim > 0; lim-- {
 		max := 0
 		for _, val := range ratings {
 			if val > max {
@@ -79,6 +79,7 @@ func Top10(msg string) []string {
 			if val == max {
 				top = append(top, key)
 				delete(ratings, key)
+
 				break
 			}
 		}
