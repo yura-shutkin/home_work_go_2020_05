@@ -57,4 +57,60 @@ func TestTop10(t *testing.T) {
 			require.ElementsMatch(t, expected, Top10(text))
 		}
 	})
+
+	t.Run("positive test 15 words", func(t *testing.T) {
+		words := map[string]int{
+			"word":       10,
+			"test":       1,
+			"Слово":      3,
+			"слово":      2,
+			"и":          5,
+			"словоформа": 15,
+			"commit":     7,
+			"git":        12,
+			"топ":        10,
+			"задача":     2,
+			"Задача":     1,
+			"задача,":    4,
+			"Тест":       8,
+			"тест":       1,
+			"тест.":      3,
+		}
+
+		text = GenerateText(words)
+
+		expected := []string{"словоформа", "git", "word", "топ", "Тест", "commit", "и", "задача,", "тест.", "Слово"}
+		require.ElementsMatch(t, expected, Top10(text))
+	})
+
+	t.Run("positive test 1 word", func(t *testing.T) {
+		words := map[string]int{
+			"word": 10,
+		}
+
+		text = GenerateText(words)
+
+		expected := []string{"word"}
+		require.ElementsMatch(t, expected, Top10(text))
+	})
+
+	t.Run("positive test 10 words", func(t *testing.T) {
+		words := map[string]int{
+			"a":       1,
+			"bc":      2,
+			"def":     3,
+			"single":  4,
+			"double":  5,
+			"testing": 6,
+			"test":    7,
+			"pass":    8,
+			"break":   9,
+			"skip":    10,
+		}
+
+		text = GenerateText(words)
+
+		expected := []string{"skip", "break", "pass", "test", "testing", "double", "single", "def", "bc", "a"}
+		require.ElementsMatch(t, expected, Top10(text))
+	})
 }
